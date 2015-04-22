@@ -56,7 +56,7 @@ ROOT_URLCONF = 'evoting.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'evoting','templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

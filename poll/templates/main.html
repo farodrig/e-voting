@@ -1,0 +1,13 @@
+{% extends "basic.html" %}
+
+{% block content %}
+    <h1>Encuestas Online</h1>
+    <h3>Haz tus encuestas e invita a tus amigos a responderlas!!.</h3>
+    <h3>Crea Encuestas privadas para que estas solo puedan ser contestada por los usuarios que tu decidas. Tú tienes el poder.</h3>
+    {% if not user.is_authenticated %}
+    <a href=signin>Ingresar</a>
+    <a href=signup>Registrarse</a>
+    {% else %}
+    <a href=logout>Cerrar Sesión</a>
+    {% endif %}
+{% endblock %}
