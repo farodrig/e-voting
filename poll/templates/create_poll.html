@@ -1,0 +1,22 @@
+{% extends "basic.html" %}
+
+{% block content %}
+    <h1>Creacion de Encuesta</h1>
+    <h3>Haz tus encuestas e invita a tus amigos a responderlas!!.</h3>
+    <h3>Crea Encuestas privadas para que estas solo puedan ser contestada por los usuarios que tu decidas. Tú tienes el poder.</h3>
+    <form method="POST">
+    {% csrf_token %}
+    <table>
+    <tr>
+        <td>holi</td>
+        <td> chao</td>
+    </tr>
+    <tr>
+        <td>x</td>
+        <td>y</td>
+    </tr>
+    </table>
+
+    <input type="submit" value="login" />
+    </form>
+{% endblock %}
