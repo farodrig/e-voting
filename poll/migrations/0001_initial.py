@@ -2,18 +2,21 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Membership',
+            name='Invitation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('guest', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -24,6 +27,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=50, blank=True)),
                 ('init_date', models.DateTimeField()),
                 ('close_date', models.DateTimeField()),
+                ('creator', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -35,41 +39,16 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='User',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('email', models.CharField(unique=True, max_length=50)),
-                ('password', models.CharField(max_length=50)),
-                ('name', models.CharField(max_length=50)),
-                ('lastname', models.CharField(max_length=50)),
-            ],
-        ),
-        migrations.CreateModel(
             name='Vote',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('vote_value', models.CharField(max_length=10)),
                 ('question', models.ForeignKey(to='poll.Question')),
-                ('voter', models.ForeignKey(to='poll.User')),
+                ('voter', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
-            model_name='poll',
-            name='guests',
-            field=models.ManyToManyField(to='poll.User', through='poll.Membership'),
-        ),
-        migrations.AddField(
-            model_name='membership',
-            name='inviter',
-            field=models.ForeignKey(related_name='membership_invites', to='poll.User'),
-        ),
-        migrations.AddField(
-            model_name='membership',
-            name='member',
-            field=models.ForeignKey(to='poll.User'),
-        ),
-        migrations.AddField(
-            model_name='membership',
+            model_name='invitation',
             name='poll',
             field=models.ForeignKey(to='poll.Poll'),
         ),

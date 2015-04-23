@@ -1,13 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Poll(models.Model):
     PRIVACY_STATUS = (
         ('P', 'Public'),
         ('C', 'Closed'),
     )
-    guests = models.ManyToManyField(User, through='Membership', through_fields=('poll', 'member'))
+    creator = models.ForeignKey(User)
     privacy_status = models.CharField(max_length=1, choices=PRIVACY_STATUS)
     name = models.CharField(max_length=50, blank=True)
     init_date = models.DateTimeField(null=False)
@@ -15,10 +14,9 @@ class Poll(models.Model):
     def __unicode__(self):
         return
 
-class Membership(models.Model):
+class Invitation(models.Model):
     poll = models.ForeignKey(Poll)
-    member = models.ForeignKey(User)
-    inviter = models.ForeignKey(User, related_name="membership_invites")
+    guest = models.ForeignKey(User)
 
 class Question(models.Model):
     votation = models.ForeignKey(Poll)
