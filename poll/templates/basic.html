@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>E-Voting Encuestas Online</title>
+    {% block head %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">E-Voting</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#">Home</a></li>
+		{% if not user.is_authenticated %}
+        <li><a href=signin>Ingresar</a></li>
+        <li><a href=signup>Registrarse</a></li>
+		{% else %}
+        <li><a href=logout>Cerrar Sesión</a></li>
+		{% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% block content %}{% endblock %}
+</body>
+</html>
