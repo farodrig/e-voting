@@ -28,6 +28,10 @@ def out(request):
     logout(request)
     return redirect('/')
 
+def createPoll(request):
+	if request.method == "POST":
+		a = 2
+	return render_to_response("create_poll.html")
 def register(request):
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
