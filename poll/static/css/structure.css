@@ -38,6 +38,17 @@ body{
 	top:40%;
 	margin:-130px 0 0 -166px;
 }
+
+.box.register
+{
+	height:475px;
+    width:332px;
+	position:absolute;
+	left:50%;
+	top:30%;
+	margin:-130px 0 0 -166px;
+}
+
 .boxBody
 {
     background:#fefefe;
@@ -71,6 +82,7 @@ body{
 }
 .box input[type=text],
 .box input[type=password],
+.box input[type=email],
 .txtField,
 .cjComboBox
 {
