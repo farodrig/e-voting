@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
             name='Invitation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('answered', models.BooleanField(default=False)),
                 ('guest', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -35,14 +36,14 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('question', models.CharField(max_length=50)),
-                ('votation', models.ForeignKey(to='poll.Poll')),
+                ('poll', models.ForeignKey(to='poll.Poll')),
             ],
         ),
         migrations.CreateModel(
             name='Vote',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('vote_value', models.CharField(max_length=10)),
+                ('value', models.CharField(max_length=10)),
                 ('question', models.ForeignKey(to='poll.Question')),
                 ('voter', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],

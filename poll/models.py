@@ -12,21 +12,25 @@ class Poll(models.Model):
     init_date = models.DateTimeField(null=False)
     close_date = models.DateTimeField(null=False)
     def __unicode__(self):
-        return
+        return self.name + " - " + self.creator
+
 
 class Invitation(models.Model):
     poll = models.ForeignKey(Poll)
     guest = models.ForeignKey(User)
+    answered = models.BooleanField(default=False)
+    def __unicode__(self):
+        return self.poll.name + " - " + self.guest
 
 class Question(models.Model):
-    votation = models.ForeignKey(Poll)
+    poll = models.ForeignKey(Poll)
     question = models.CharField(max_length=50, null=False)
     def __unicode__(self):
-        return
+        return self.poll + " - " + self.question
 
 class Vote(models.Model):
     question = models.ForeignKey(Question)
     voter = models.ForeignKey(User)
-    vote_value = models.CharField(max_length=10)
+    value = models.CharField(max_length=10)
     def __unicode__(self):
-        return
+        return self.question + ": " + self.value

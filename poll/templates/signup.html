@@ -17,17 +17,18 @@
         <label>Last Name</label>
         <input id="id_last_name" maxlength="30" name="last_name" type="text" tabindex="3" required>
         <label>Email</label>
-	  <input id="id_email" maxlength="254" name="email" type="email" tabindex="3" required>
+	  <input id="id_email" maxlength="254" name="email" type="email" tabindex="4" required>
 	  <label>Password</label>
 	  <input id="id_password" name="password" type="password" tabindex="5" required>
 	</fieldset>
 	<footer>
-    {% if form.errors %}
+    	  <input type="submit" class="btnLogin" value="Sign Up" tabindex="6">
+	</footer>
+</form>
+{% if user_form.errors %}
+        <h1>Error</h1>
         <script>
             alert("The form has errors. Please try again.");
         </script>
     {% endif %}
-	  <input type="submit" class="btnLogin" value="Sign Up" tabindex="4">
-	</footer>
-</form>
 {% endblock %}

@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
-from forms import UserForm
-from forms import PollForm
+from forms import UserForm, PollForm
+from models import *
+import datetime
 # Create your views here.
 
 def main(request):
@@ -55,3 +56,18 @@ def register(request):
     else:
         user_form = UserForm()
     return render_to_response('signup.html', {'user_form': user_form}, context_instance=RequestContext(request))
+
+def poll_list(request):
+    try:
+        created = Poll.objects.filter(creator = request.user)
+    except:
+        created = None
+    try:
+        answered = Invitation.objects.filter(guest = request.user, answered = True)
+    except:
+        answered = None
+    try:
+        not_answered = Invitation.objects.filter(guest = request.user, answered = False)
+    except:
+        not_answered = None
+    return render_to_response('poll_list.html', {'created': created, 'answered': answered, 'not_answered': not_answered, 'now': datetime.datetime.now()},context_instance=RequestContext(request))

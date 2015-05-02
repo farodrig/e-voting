@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load poll_filters %}
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -20,6 +22,7 @@
         <li><a href=/signin>Ingresar</a></li>
         <li><a href=/signup>Registrarse</a></li>
 		{% else %}
+        <li><a href=/poll_list>Mis Encuestas</a></li>
 		<li><a href=/createpoll>Crear Encuesta</a></li>
         <li><a href=/logout>Cerrar Sesión</a></li>
 		{% endif %}
