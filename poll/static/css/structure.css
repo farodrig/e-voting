@@ -49,6 +49,16 @@ body{
 	margin:-130px 0 0 -166px;
 }
 
+.box.register.encuesta
+{
+	height:400px;
+    width:332px;
+	position:absolute;
+	left:50%;
+	top:30%;
+	margin:-130px 0 0 -166px;
+}
+
 .boxBody
 {
     background:#fefefe;

@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 from forms import UserForm
+from forms import PollForm
 # Create your views here.
 
 def main(request):
@@ -30,8 +31,15 @@ def out(request):
 
 def createPoll(request):
 	if request.method == "POST":
-		a = 2
-	return render_to_response("create_poll.html")
+		poll_form = PollForm(data=request.POST)
+		if poll_form.is_valid():
+			poll = poll_form.save()
+			poll.save()
+			return redirect('/')
+	else:
+		poll_form = PollForm()
+	return render_to_response("create_poll.html", {'poll_form': poll_form}, context_instance=RequestContext(request))
+
 def register(request):
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
