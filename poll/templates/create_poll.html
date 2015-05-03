@@ -43,12 +43,17 @@ $('#close_date').datepicker({
 		<input type="text" id="init_date" name="init_date" required tabindex="2" >
 		<label>Fecha Final</label> 
 		<input type="text" id="close_date" name="close_date" required tabindex="3">
-		<input type="hidden" id="privacy_status" name="privacy_status" value="P">
+        <label>Privacidad</label>
+        <select name="privacy_status" id="privacy_status" required tabindex="4">
+            <option selected="selected" value="">       </option>
+            <option value="P">Pública</option>
+            <option value="C">Privada</option>
+        </select>
 		<input type="hidden" id="creator" name="creator" value="1">
 	</fieldset>
     <footer>
 	
-		<input type="submit" class="btnLogin" value="Crear" tabindex="4" />
+		<input type="submit" class="btnLogin" value="Crear" tabindex="5" />
 	</footer>
     </form>
 {% endblock %}

@@ -32,16 +32,17 @@ def out(request):
     return redirect('/')
 
 def createPoll(request):
-	if request.method == "POST":
-		#falta validar el id del user
-		poll_form = PollForm(data={'name':request.POST['name'], 'init_date':request.POST['init_date'], 'close_date':request.POST['close_date'], \
-		'privacy_status':request.POST['privacy_status'], 'creator' : request.POST['creator']})
-		if poll_form.is_valid():
-			poll = poll_form.save()
-			return redirect('/')
-	else:
-		poll_form = PollForm()
-	return render_to_response("create_poll.html", {'poll_form': poll_form}, context_instance=RequestContext(request))
+    if request.method == "POST":
+        #falta validar el id del user
+        poll_form = PollForm(data=request.POST)
+        if poll_form.is_valid():
+            poll = poll_form.save()
+            poll.creator = request.user
+            poll.save()
+            return redirect('/')
+    else:
+        poll_form = PollForm()
+    return render_to_response("create_poll.html", {'poll_form': poll_form}, context_instance=RequestContext(request))
 
 def register(request):
     if request.method == 'POST':

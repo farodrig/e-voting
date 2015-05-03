@@ -20,7 +20,6 @@
 {% block content %}
 <h2 class="bg-info">Encuestas Creadas</h2>
 {% if created %}
-
 <div class="table-responsive">
     <table class="table table-striped">
       <thead>
@@ -40,8 +39,8 @@
             <td>{{poll.name}}</td>
             <td>{{poll.init_date.date}}</td>
             <td>{{poll.close_date.date}}</td>
-            <td>{% if poll.close_date|past %}Cerrada{%else%}Abierta{%endif%}</td>
-            <td>{% ifequal poll.privacy_status P %}Privada{% else %} Pública {% endifequal %}</td>
+            <td>{% if poll.close_date|past %} Cerrada {%else%} Abierta {%endif%}</td>
+            <td>{% if poll.privacy_status == "C" %}Privada{% else %} Pública {% endif %}</td>
         </tr>
         {%endfor%}
       </tbody>
