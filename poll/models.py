@@ -12,7 +12,7 @@ class Poll(models.Model):
     init_date = models.DateTimeField(null=False)
     close_date = models.DateTimeField(null=False)
     def __unicode__(self):
-        return self.name + " - " + self.creator
+        return unicode(self.name) + ' - ' + unicode(self.creator)
 
 
 class Invitation(models.Model):

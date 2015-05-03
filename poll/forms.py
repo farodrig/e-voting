@@ -3,7 +3,7 @@
 __author__ = 'farodrig'
 
 from django.contrib.auth.models import User
-from models import Poll
+from poll import models
 from django import forms
 
 class UserForm(forms.ModelForm):
@@ -13,7 +13,6 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password')
 
 class PollForm(forms.ModelForm):
-    #password = forms.CharField(widget=forms.PasswordInput(), label = "Contraseña")
     class Meta:
-        model = Poll
-        fields = ('name', 'init_date', 'close_date', 'privacy_status')
+        model = models.Poll
+        fields = ('name', 'init_date', 'close_date', 'privacy_status', 'creator')

@@ -8,11 +8,25 @@
  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script>
   $(function() {
-    $( "#init_date" ).datepicker();
-  });
+$('#init_date').datepicker({
+    dateFormat: 'yy-mm-dd',
+    onSelect: function(datetext){
+        var d = new Date(); // for now
+        datetext=datetext+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+        $('#init_date').val(datetext);
+    },
+});
+});
   $(function() {
-    $( "#close_date" ).datepicker();
-  });
+$('#close_date').datepicker({
+    dateFormat: 'yy-mm-dd',
+    onSelect: function(datetext){
+        var d = new Date(); // for now
+        datetext=datetext+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+        $('#close_date').val(datetext);
+    },
+});
+});
  </script>
 
 {% endblock %}
@@ -26,12 +40,14 @@
 		<label>Nombre de la Encuesta</label>
 		<input id="name"  type="text" tabindex="1" required maxlength="254" name="name">
 		<label>Fecha Inicio</label> 
-		<input type="text" id="init_date" tabindex="2" >
+		<input type="text" id="init_date" name="init_date" required tabindex="2" >
 		<label>Fecha Final</label> 
-		<input type="text" id="close_date"  tabindex="3">
+		<input type="text" id="close_date" name="close_date" required tabindex="3">
+		<input type="hidden" id="privacy_status" name="privacy_status" value="P">
+		<input type="hidden" id="creator" name="creator" value="1">
 	</fieldset>
     <footer>
-
+	
 		<input type="submit" class="btnLogin" value="Crear" tabindex="4" />
 	</footer>
     </form>

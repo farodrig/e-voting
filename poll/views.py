@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 from forms import UserForm, PollForm
+from django.http import HttpResponse
 from models import *
 import datetime
 # Create your views here.
@@ -32,10 +33,11 @@ def out(request):
 
 def createPoll(request):
 	if request.method == "POST":
-		poll_form = PollForm(data=request.POST)
+		#falta validar el id del user
+		poll_form = PollForm(data={'name':request.POST['name'], 'init_date':request.POST['init_date'], 'close_date':request.POST['close_date'], \
+		'privacy_status':request.POST['privacy_status'], 'creator' : request.POST['creator']})
 		if poll_form.is_valid():
 			poll = poll_form.save()
-			poll.save()
 			return redirect('/')
 	else:
 		poll_form = PollForm()
