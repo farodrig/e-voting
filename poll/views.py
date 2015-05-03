@@ -33,7 +33,6 @@ def out(request):
 
 def createPoll(request):
     if request.method == "POST":
-        #falta validar el id del user
         poll_form = PollForm(data=request.POST)
         if poll_form.is_valid():
             poll = poll_form.save()
