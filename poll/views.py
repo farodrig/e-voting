@@ -86,3 +86,26 @@ def invitation_list(request):
     else:
         users=User.objects.all()
     return  render_to_response('invitation_list.html', {'users': users}, context_instance=RequestContext(request))
+
+#TO DO CATE
+#Recuerda crear preguntas, respuestas y votos para q veas q va funcionando
+def results(request):
+    poll = 1 #harcodeado no más
+    #Necesito:
+    #El nombre de la Poll (si quieres pasas toda la Poll)
+    #Cada PRegunta de la Poll
+    #Cada answer con su cantidad de votos y si tienen values, el value (de los votos)
+    #esto es un ejemplo:
+    dict = {
+        'poll': poll, #Aqui es el objeto, no el nuero de más arriba,
+        'questions': {
+            'name': question.name,
+            'votes': total_votes,
+            'answers':{
+                'text': answer.text,
+                'votes': numero_votos,
+                'value': answer.value,
+            }
+        }
+    }
+    return  render_to_response('poll_results.html', dict, context_instance=RequestContext(request))
