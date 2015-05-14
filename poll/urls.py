@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^createpoll/$', views.createPoll),
     url(r'^signup$', views.register),
     url(r'^poll_list$', views.poll_list),
+    url(r'^invitation_list$', views.invitation_list),
 ]
