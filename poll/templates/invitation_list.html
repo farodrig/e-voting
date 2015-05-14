@@ -47,23 +47,13 @@
                     <input type="checkbox" id="all" tabindex="0" onchange="selectAll(this)">
                     <label>Seleccionar todos</label>
                 </div>
-                <!-- TO DO CATE
-
-                    En value debiese ir el ID del usuario, y despues el nombre con el apellido
-                    Tienes q hacer un for y recorrer la variable "users" que viene del controlador
-                    Este es un ejemplo estático, debiesen ir todos los usuarios registrados.
-                    Revisa otros .html de templates para cachar como hacer los for y esas cosas.
-
+                <!-- si cambio guests[] por guests entra al for, pero el select all deja de funcionar
                 -->
-                <div class="checkbox">
-                    <label><input type="checkbox" name="guests[]" value="1" tabindex="1">Caterina Muñoz</label>
+                {% for user in users %}
+                    <div class="checkbox">
+                    <label><input type="checkbox" name="guests[]" value={{user.id}} tabindex={{forloop.counter}}>{{user.first_name}} {{user.last_name}}</label>
                 </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" name="guests[]" value="2" tabindex="2">Felipe Rodriguez</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" name="guests[]" value="3" tabindex="3">Ignacio Valderrama</label>
-                </div>
+                {%endfor%}
                 <input type="submit" class="btn btn-primary pull-right" value="Enviar invitaciones" tabindex="4" />
             </form>
         </div>

@@ -74,16 +74,16 @@ def poll_list(request):
         not_answered = None
     return render_to_response('poll_list.html', {'created': created, 'answered': answered, 'not_answered': not_answered, 'now': datetime.datetime.now()},context_instance=RequestContext(request))
 
-#TO DO Cate
-#Puedes ver lo q esta mostrando ahora en localhost:8000/invitation_list por ahora, es estatico
-#Te recuerdo q en django, el modelo se llama modelo, la vista se llama template y el controlador se llama vista.
-#En urls.py hay un dispatcher, q toma una expresion regular y le asigna un controlador para q responda a el llamado de la URL.
 
 def invitation_list(request):
-    poll = 1 #Deberia sacarse de la sesion, dejemosla harcodeada por ahora. Tiene q estar creada alguna poll con id 1 para q esto funcione xD
-    #verificar si metodo es post
-    #si es post, sacar datos de invitados con 'some_var = request.POST.getlist('guests')' somevar arreglo de id de usuarios que seran invitados. Guardar estos invitados en la tabla de invitaciones. Redirigir a alguna pagina.
-    #si no es post, buscar a todos los usuarios y crear variable con ellos, abajo esta nombrada como users
-    users = 1 #Por poner algo, users deberian ser todos los usuarios q sacaste de la bse de datos
-    #render to response recibe primero el template, luego un diccionario de {'nombre_variable_en_template': nombre_variable_controlador, ...mas asocioaciones...} y la otra cosa, es mejor q siempre este xD.
+    if request.method == 'POST':
+        guests=request.POST.getlist('guests')
+        for guest in guests:
+            # acá me reclama que poll tiene que ser una poll instance y no un número, quizá hay que hacer 
+            # un Poll.objects.filter(id=1)
+            invitation = Invitation(poll=1,guest=guest)
+            invitation.save()
+        return redirect('/')
+    else:
+        users=User.objects.all()
     return  render_to_response('invitation_list.html', {'users': users}, context_instance=RequestContext(request))
