@@ -80,10 +80,20 @@ def poll_list(request):
 #En urls.py hay un dispatcher, q toma una expresion regular y le asigna un controlador para q responda a el llamado de la URL.
 
 def invitation_list(request):
-    poll = 1 #Deberia sacarse de la sesion, dejemosla harcodeada por ahora. Tiene q estar creada alguna poll con id 1 para q esto funcione xD
+    if request.method == 'POST':
+        guests=request.POST.getlist('guests')
+        for guest in guests:
+            invitation = Invitation()
+            invitation.set_poll(1)
+            invitation.set_guest(guest)
+            invitation.save()
+            return redirect('/')
+    else:
+        users=User.objects
+    #poll = 1 #Deberia sacarse de la sesion, dejemosla harcodeada por ahora. Tiene q estar creada alguna poll con id 1 para q esto funcione xD
     #verificar si metodo es post
     #si es post, sacar datos de invitados con 'some_var = request.POST.getlist('guests')' somevar arreglo de id de usuarios que seran invitados. Guardar estos invitados en la tabla de invitaciones. Redirigir a alguna pagina.
     #si no es post, buscar a todos los usuarios y crear variable con ellos, abajo esta nombrada como users
-    users = 1 #Por poner algo, users deberian ser todos los usuarios q sacaste de la bse de datos
+    #users = 1 #Por poner algo, users deberian ser todos los usuarios q sacaste de la bse de datos
     #render to response recibe primero el template, luego un diccionario de {'nombre_variable_en_template': nombre_variable_controlador, ...mas asocioaciones...} y la otra cosa, es mejor q siempre este xD.
     return  render_to_response('invitation_list.html', {'users': users}, context_instance=RequestContext(request))
