@@ -13,6 +13,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='Answer',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=30)),
+                ('value', models.CharField(max_length=200, blank=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Invitation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -35,16 +43,23 @@ class Migration(migrations.Migration):
             name='Question',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('question', models.CharField(max_length=50)),
+                ('name', models.CharField(max_length=100)),
                 ('poll', models.ForeignKey(to='poll.Poll')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Type',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=30)),
             ],
         ),
         migrations.CreateModel(
             name='Vote',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.CharField(max_length=10)),
-                ('question', models.ForeignKey(to='poll.Question')),
+                ('value', models.CharField(max_length=100, blank=True)),
+                ('answer', models.ForeignKey(to='poll.Answer')),
                 ('voter', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -52,5 +67,15 @@ class Migration(migrations.Migration):
             model_name='invitation',
             name='poll',
             field=models.ForeignKey(to='poll.Poll'),
+        ),
+        migrations.AddField(
+            model_name='answer',
+            name='question',
+            field=models.ForeignKey(to='poll.Question'),
+        ),
+        migrations.AddField(
+            model_name='answer',
+            name='type',
+            field=models.ForeignKey(to='poll.Type'),
         ),
     ]
