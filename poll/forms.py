@@ -15,4 +15,4 @@ class UserForm(forms.ModelForm):
 class PollForm(forms.ModelForm):
     class Meta:
         model = models.Poll
-        fields = ('name', 'init_date', 'close_date', 'privacy_status', 'creator')
+        exclude = ('creator',)

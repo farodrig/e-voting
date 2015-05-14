@@ -34,11 +34,13 @@ def out(request):
 def createPoll(request):
     if request.method == "POST":
         poll_form = PollForm(data=request.POST)
+        print poll_form
         if poll_form.is_valid():
-            poll = poll_form.save()
+            poll = poll_form.save(commit=False)
             poll.creator = request.user
+            print poll
             poll.save()
-            return redirect('/')
+            return render_to_response("create_question.html", {'poll': poll}, context_instance=RequestContext(request))
     else:
         poll_form = PollForm()
     return render_to_response("create_poll.html", {'poll_form': poll_form}, context_instance=RequestContext(request))
