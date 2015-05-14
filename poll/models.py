@@ -22,25 +22,25 @@ class Invitation(models.Model):
     def __unicode__(self):
         return self.poll.name + " - " + self.guest
 
-class Question(models.Model):
-    poll = models.ForeignKey(Poll)
-    name = models.CharField(max_length=100, null=False)
-    def __unicode__(self):
-        return self.poll.name + " - " + self.name
 
-#La idea seria que aqui fueran los tipos de los input para el html, o asi lo pense, siempre se puede cambiar
+#La idea seria que aqui fueran los tipos de los input de html soportados, onda si las respuestas seran checkbox o cosas asi
 class Type(models.Model):
     name = models.CharField(max_length=30)
     def __unicode__(self):
         return self.name
 
+class Question(models.Model):
+    poll = models.ForeignKey(Poll)
+    name = models.CharField(max_length=100, null=False)
+    type = models.ForeignKey(Type)
+    def __unicode__(self):
+        return self.poll.name + " - " + self.name
+
 class Answer(models.Model):
     question = models.ForeignKey(Question)
-    type = models.ForeignKey(Type)
-    name = models.CharField(max_length=30) #la idea es q sea el nombre del tag name del html
-    value = models.CharField(max_length=200, blank=True)
+    text = models.CharField(max_length=200, blank=True)
     def __unicode__(self):
-        return self.question.name + " - " + self.value
+        return self.question.name + " - " + self.text
 
 class Vote(models.Model):
     answer = models.ForeignKey(Answer)
