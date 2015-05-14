@@ -80,8 +80,6 @@ def invitation_list(request):
         guests=request.POST.getlist('guests[]')
         print guests
         for guest in guests:
-            # aca me reclama que poll tiene que ser una poll instance y no un numero, quiza hay que hacer
-            # un Poll.objects.filter(id=1)
             invitation = Invitation(poll=Poll.objects.get(id=1),guest=User.objects.get(id = int(guest)))
             invitation.save()
         return redirect('/')
