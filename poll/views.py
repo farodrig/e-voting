@@ -77,11 +77,12 @@ def poll_list(request):
 
 def invitation_list(request):
     if request.method == 'POST':
-        guests=request.POST.getlist('guests')
+        guests=request.POST.getlist('guests[]')
+        print guests
         for guest in guests:
-            # acá me reclama que poll tiene que ser una poll instance y no un número, quizá hay que hacer 
+            # aca me reclama que poll tiene que ser una poll instance y no un numero, quiza hay que hacer
             # un Poll.objects.filter(id=1)
-            invitation = Invitation(poll=1,guest=guest)
+            invitation = Invitation(poll=Poll.objects.get(id=1),guest=User.objects.get(id = int(guest)))
             invitation.save()
         return redirect('/')
     else:
