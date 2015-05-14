@@ -16,8 +16,7 @@ class Migration(migrations.Migration):
             name='Answer',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=30)),
-                ('value', models.CharField(max_length=200, blank=True)),
+                ('text', models.CharField(max_length=200, blank=True)),
             ],
         ),
         migrations.CreateModel(
@@ -64,6 +63,11 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AddField(
+            model_name='question',
+            name='type',
+            field=models.ForeignKey(to='poll.Type'),
+        ),
+        migrations.AddField(
             model_name='invitation',
             name='poll',
             field=models.ForeignKey(to='poll.Poll'),
@@ -72,10 +76,5 @@ class Migration(migrations.Migration):
             model_name='answer',
             name='question',
             field=models.ForeignKey(to='poll.Question'),
-        ),
-        migrations.AddField(
-            model_name='answer',
-            name='type',
-            field=models.ForeignKey(to='poll.Type'),
         ),
     ]
