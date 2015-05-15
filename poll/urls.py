@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^invitation_list$', views.invitation_list),
     url(r'^poll_results', views.results),
 	url(r'^createquestion/$', views.createQuestion, name="createquestion"),
+	url(r'^search$', views.search),
 ]

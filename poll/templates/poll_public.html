@@ -1,0 +1,54 @@
+{% extends "basic.html" %}
+{% load staticfiles %}
+{% load poll_filters %}
+{%block head%}
+<style>
+    .table-striped > thead > tr > td {
+    border-bottom: 2px solid #ddd;
+    vertical-align: bottom;
+    font-weight: bold;
+}
+    p{
+    margin-left: 20px
+    }
+    h2{
+    margin-left: 10px
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="bg-info">Encuestas Públicas</h2>
+{% if polls %}
+<div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+            <td>#</td>
+            <td>Nombre</td>
+            <td>Fecha Inicio</td>
+            <td>Fecha Termino</td>
+            <td>Estado</td>
+            <td>Privacidad</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for poll in polls %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{poll.name}}{% if poll.close_date|past %}{% else %}  <a href="http://www.google.cl">Contestar</a>{% endif%}</td>
+            <td>{{poll.init_date.date}}</td>
+            <td>{{poll.close_date.date}}</td>
+            <td>{% if poll.close_date|past %} Cerrada {%else%} Abierta {%endif%}</td>
+            <td>{% if poll.privacy_status == "C" %}Privada{% else %} Pública {% endif %}</td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+</div>
+{% else %}
+    <p>No hay encuesta pública para ti.</p>
+{%endif%}
+<br>
+
+{% endblock %}

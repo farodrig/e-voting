@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
+from django.db.models import Q
 from forms import UserForm, PollForm, QuestionForm, AnswerForm
 from django.http import HttpResponse
 from models import *
@@ -67,6 +68,13 @@ def createQuestion(request):
 	else:
 		poll = 0
 	return render_to_response("create_question.html", {'poll': poll}, context_instance=RequestContext(request))
+
+def search(request):
+	try:
+		polls = Poll.objects.filter(Q(privacy_status="P"), ~Q(creator = request.user))
+	except:
+		polls = None
+	return render_to_response("poll_public.html", {"polls":polls},context_instance=RequestContext(request))
 	
 def register(request):
     if request.method == 'POST':
