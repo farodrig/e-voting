@@ -92,7 +92,20 @@ def invitation_list(request):
 #TO DO CATE
 #Recuerda crear preguntas, respuestas y votos para q veas q va funcionando
 def results(request):
-    poll = 1 #harcodeado no más
+    poll_id = 1 #harcodeado no más
+    dict={}
+    poll=Poll.objects.get(id=poll_id)
+    dict['poll']=poll
+    questions=[]
+    questions=Question.objects.filter(poll=1)
+    for q in questions:
+        question_name=question.name
+        question_value=Answer.objects.filter(question=q.id).distinct('value')
+        total_votes=0
+        answers=[]
+        for ans in question_answers:
+
+
     #Necesito:
     #El nombre de la Poll (si quieres pasas toda la Poll)
     #Cada PRegunta de la Poll
