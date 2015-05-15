@@ -1,6 +1,65 @@
 {% extends "basic.html" %}
 {% load staticfiles %}
 {% block head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+<style>
+    .bs-example{
+    	margin-left: auto;
+        margin-right: auto;
+        width: 250px;
+    }
+    .box{
+        margin-left: 10px;
+    }
+    .btn{
+        margin-top: 10px;
+    }
+    body {
+        background-color: #E3E7EA;
+    }
+    .answer{
+        margin-left: 10px;
+        font-weight: initial;
+    }
+</style>
 {% endblock %}
 {% block content %}
+<div class="bs-example">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h1 class="panel-title">Nombre Encuesta</h1>
+        </div>
+
+        <div class="panel-body">
+            <div class="list-group">
+              <a href="#" class="list-group-item active">Pregunta 1</a>
+              <div class="list-group">
+                  <a href="#" class="list-group-item"><span class="badge">44 (14%)</span><label class="answer">Respuesta 1</label></a>
+                  <a href="#" class="list-group-item"><span class="badge">55 (20%)</span><label class="answer">Respuesta 2</label></a>
+                  <a href="#" class="list-group-item"><span class="badge">100 (42%)</span><label class="answer">Respuesta 3</label></a>
+              </div>
+            </div>
+            <div class="list-group">
+              <a href="#" class="list-group-item active">Pregunta 2</a>
+              <div class="list-group">
+                  <a href="#" class="list-group-item"><span class="badge">44 (14%)</span><label class="answer">Respuesta 1</label></a>
+                  <a href="#" class="list-group-item"><span class="badge">55 (20%)</span><label class="answer">Respuesta 2</label></a>
+                  <a href="#" class="list-group-item"><span class="badge">100 (42%)</span><label class="answer">Respuesta 3</label></a>
+              </div>
+            </div>
+            <div class="list-group">
+              <a href="#" class="list-group-item active">Pregunta 3</a>
+              <div class="list-group">
+                  <a href="#" class="list-group-item"><span class="badge">44 (14%)</span><label class="answer">Respuesta 1</label></a>
+                  <a href="#" class="list-group-item"><span class="badge">55 (20%)</span><label class="answer">Respuesta 2</label></a>
+                  <a href="#" class="list-group-item"><span class="badge">100 (42%)</span><label class="answer">Respuesta 3</label></a>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
