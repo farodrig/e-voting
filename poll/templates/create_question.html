@@ -5,29 +5,44 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/structure.css' %}">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+    function finalizar() {
+        alert("Submit button clicked!");
+		var input = $("<input>")
+               .attr("type", "hidden")
+               .attr("name", "continuar").val("0");
+		$('#form1').append($(input));
+        return true;
+    }
+	function continuar() {
+        var input = $("<input>")
+               .attr("type", "hidden")
+               .attr("name", "continuar").val("1");
+		$('#form1').append($(input));
+        return true;
+    }
+</script>
 {% endblock %}
 
 
 {% block content %}
 
-    <form class="box register encuesta" method="POST">
+    <form id="form1" action="{% url 'createquestion' %}" class="box register encuesta" method="POST">
     {% csrf_token %}
 	<fieldset class="boxBody">
 		<label>Pregunta</label>
 		<input id="name"  type="text" tabindex="1" required maxlength="254" name="name">
-
         <label>Respuesta 1</label>
-		<input id="name"  type="text" tabindex="1" required maxlength="254" name="name">
+		<input id="id_1-text"  type="text" tabindex="1" required maxlength="254" name="1-text">
 		
 		<label>Respuesta 2</label>
-		<input id="name"  type="text" tabindex="1" required maxlength="254" name="name">
-        
+		<input id="id_2-text"  type="text" tabindex="1" required maxlength="254" name="2-text">
+		<input id="poll" type="hidden" name="poll" value="{{ poll }}">
 	</fieldset>
     <footer>
-	
-		<input type="submit" class="btnLogin" value="Crear" tabindex="5" />
+		<input type="submit" class="btnLogin" value="Finalizar" tabindex="5" onclick="return finalizar();"/>
+		<input type="submit" class="btnLogin" value="Crear otra pregunta" tabindex="5" onclick="return continuar();"/>
 	</footer>
     </form>
 {% endblock %}

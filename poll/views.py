@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
-from forms import UserForm, PollForm
+from forms import UserForm, PollForm, QuestionForm, AnswerForm
 from django.http import HttpResponse
 from models import *
 import datetime
@@ -34,17 +35,39 @@ def out(request):
 def createPoll(request):
     if request.method == "POST":
         poll_form = PollForm(data=request.POST)
-        print poll_form
         if poll_form.is_valid():
             poll = poll_form.save(commit=False)
             poll.creator = request.user
-            print poll
             poll.save()
-            return render_to_response("create_question.html", {'poll': poll}, context_instance=RequestContext(request))
+            return render_to_response("create_question.html", {'poll': poll.id}, context_instance=RequestContext(request))
     else:
         poll_form = PollForm()
     return render_to_response("create_poll.html", {'poll_form': poll_form}, context_instance=RequestContext(request))
 
+def createQuestion(request):
+	if request.method == "POST":
+		poll = request.POST['poll']
+		question_form = QuestionForm(data=request.POST)
+		cforms = [AnswerForm(request.POST, prefix=str(x), instance=Answer()) for x in range(1,3)]
+
+		if question_form.is_valid(): #falta validar por la respuesta.
+			question = question_form.save(commit=False)
+			question.poll = Poll.objects.get(id=poll)
+			type = Type.objects.get(id=1)
+			question.type = type
+			question.save()
+			for cf in cforms:
+				answer = cf.save(commit=False)
+				answer.question = question
+				answer.save()
+			if request.POST['continuar'] == "1":
+				return render_to_response("create_question.html", {'poll': poll}, context_instance=RequestContext(request))
+			else:
+				return redirect('/')
+	else:
+		poll = 0
+	return render_to_response("create_question.html", {'poll': poll}, context_instance=RequestContext(request))
+	
 def register(request):
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
@@ -117,3 +140,7 @@ def results(request):
         questList.append(q)
     dict['questions']=questList
     return  render_to_response('poll_results.html', dict, context_instance=RequestContext(request))
+
+def all(items):
+    import operator
+    return reduce(operator.and_, [bool(item) for item in items])
