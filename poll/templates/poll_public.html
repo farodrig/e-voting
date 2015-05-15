@@ -36,7 +36,7 @@
         {% for poll in polls %}
         <tr>
             <td>{{forloop.counter}}</td>
-            <td>{{poll.name}}{% if poll.close_date|past %}{% else %}  <a href="http://www.google.cl">Contestar</a>{% endif%}</td>
+            <td>{{poll.name}}{% if poll.close_date|past %}{% else %}  <a href="/answer/{{poll.id}}" class="btn btn-primary">Contestar</a>{% endif%}</td>
             <td>{{poll.init_date.date}}</td>
             <td>{{poll.close_date.date}}</td>
             <td>{% if poll.close_date|past %} Cerrada {%else%} Abierta {%endif%}</td>

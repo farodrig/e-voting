@@ -74,8 +74,16 @@ def search(request):
 		polls = Poll.objects.filter(Q(privacy_status="P"), ~Q(creator = request.user))
 	except:
 		polls = None
-	return render_to_response("poll_public.html", {"polls":polls},context_instance=RequestContext(request))
-	
+	return render_to_response("poll_public.html", {"polls":polls}, context_instance=RequestContext(request))
+
+def answer(request, idpoll):
+	poll = Poll.objects.get(pk=idpoll)
+	questions = Question.objects.filter(poll=poll)
+	print questions
+	if request.method == "POST":
+		print "hola"
+	return render_to_response("poll_answer.html", {'poll': poll, 'questions':questions}, context_instance=RequestContext(request))
+
 def register(request):
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
@@ -87,7 +95,6 @@ def register(request):
                                     password=request.POST['password'])
             login(request, new_user)
             return redirect('/')
-
     else:
         user_form = UserForm()
     return render_to_response('signup.html', {'user_form': user_form}, context_instance=RequestContext(request))

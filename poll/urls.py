@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^poll_results', views.results),
 	url(r'^createquestion/$', views.createQuestion, name="createquestion"),
 	url(r'^search$', views.search),
+	url(r'^answer/?(?P<idpoll>\d+)?$', views.answer),
 ]

@@ -1,0 +1,29 @@
+{% extends "basic.html" %}
+{% load staticfiles %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/structure.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <form id="form1" class="box register encuesta" method="POST">
+    {% csrf_token %}
+	<fieldset class="boxBody">
+		<label>{{poll.name}}</label>
+		{% for question in questions%}
+		<label>Pregunta {{forloop.counter}}: {{question.name}}</label>
+		{% endfor %}
+		<input type="radio" name="group1" value="Milk"> Respuesta 1<br>
+		<input type="radio" name="group1" value="Milk"> Respuesta 2<br>
+	</fieldset>
+    <footer>
+		<input type="submit" class="btnLogin" value="Responder" tabindex="5"/>
+	</footer>
+    </form>
+{% endblock %}
