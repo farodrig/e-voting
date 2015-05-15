@@ -96,14 +96,26 @@ def results(request):
     dict={}
     poll=Poll.objects.get(id=poll_id)
     dict['poll']=poll
-    questions=[]
-    questions=Question.objects.filter(poll=1)
-    for q in questions:
-        question_name=question.name
-        question_value=Answer.objects.filter(question=q.id).distinct('value')
-        total_votes=0
+    poll_questions=[]
+    questions=Question.objects.filter(poll=poll)
+    for ques in questions:
+        q={}
+        question_name=ques.name
+        question_answers=Answer.objects.filter(question=ques)
+        total_votes=Vote.objects.filter(answer__in=question_answers).count()
         answers=[]
         for ans in question_answers:
+            a={}
+            ans_text=ans.text
+            ans_votes=Vote.objects.filter(answer=ans).count()
+            a['text']=ans_text
+            a['perc']=100.0*ans_votes/total_votes
+            answers.append(a)
+        q['name']=question_name
+        q['total_votes']=total_votes
+        q['answers']=answers
+        poll_questions.append(q)
+    dict['questions']=poll_questions
 
 
     #Necesito:
@@ -111,16 +123,16 @@ def results(request):
     #Cada PRegunta de la Poll
     #Cada answer con su cantidad de votos y si tienen values, el value (de los votos)
     #esto es un ejemplo:
-    dict = {
-        'poll': poll, #Aqui es el objeto, no el nuero de más arriba,
-        'questions': {
-            'name': question.name,
-            'votes': total_votes,
-            'answers':{
-                'text': answer.text,
-                'votes': numero_votos,
-                'value': answer.value,
-            }
-        }
-    }
+    #dict = {
+     #   'poll': poll, #Aqui es el objeto, no el nuero de más arriba,
+      #  'questions': {
+       #     'name': question.name,
+        #    'votes': total_votes,
+         #   'answers':{
+          #      'text': answer.text,
+           #     'votes': numero_votos,
+            #    'value': answer.value,
+            #}
+        #}
+    #}
     return  render_to_response('poll_results.html', dict, context_instance=RequestContext(request))
