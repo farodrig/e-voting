@@ -92,47 +92,28 @@ def invitation_list(request):
 #TO DO CATE
 #Recuerda crear preguntas, respuestas y votos para q veas q va funcionando
 def results(request):
-    poll_id = 1 #harcodeado no más
+    poll_id = 1 #harcodeado no mas
     dict={}
     poll=Poll.objects.get(id=poll_id)
     dict['poll']=poll
-    poll_questions=[]
+    questList=[]
     questions=Question.objects.filter(poll=poll)
     for ques in questions:
         q={}
-        question_name=ques.name
-        question_answers=Answer.objects.filter(question=ques)
-        total_votes=Vote.objects.filter(answer__in=question_answers).count()
-        answers=[]
-        for ans in question_answers:
+        name=ques.name
+        answers=Answer.objects.filter(question=ques)
+        total=Vote.objects.filter(answer__in=answers).count()
+        ansList=[]
+        for ans in answers:
             a={}
-            ans_text=ans.text
-            ans_votes=Vote.objects.filter(answer=ans).count()
-            a['text']=ans_text
-            a['perc']=100.0*ans_votes/total_votes
-            answers.append(a)
-        q['name']=question_name
-        q['total_votes']=total_votes
-        q['answers']=answers
-        poll_questions.append(q)
-    dict['questions']=poll_questions
-
-
-    #Necesito:
-    #El nombre de la Poll (si quieres pasas toda la Poll)
-    #Cada PRegunta de la Poll
-    #Cada answer con su cantidad de votos y si tienen values, el value (de los votos)
-    #esto es un ejemplo:
-    #dict = {
-     #   'poll': poll, #Aqui es el objeto, no el nuero de más arriba,
-      #  'questions': {
-       #     'name': question.name,
-        #    'votes': total_votes,
-         #   'answers':{
-          #      'text': answer.text,
-           #     'votes': numero_votos,
-            #    'value': answer.value,
-            #}
-        #}
-    #}
+            text=ans.text
+            votes=Vote.objects.filter(answer=ans).count()
+            a['text']=text
+            a['votes'] = votes
+            a['perc']=100.0*votes/total
+            ansList.append(a)
+        q['name']=name
+        q['answers']=ansList
+        questList.append(q)
+    dict['questions']=questList
     return  render_to_response('poll_results.html', dict, context_instance=RequestContext(request))

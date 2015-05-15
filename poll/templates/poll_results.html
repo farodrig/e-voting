@@ -31,34 +31,20 @@
 <div class="bs-example">
     <div class="panel panel-success">
         <div class="panel-heading">
-            <h1 class="panel-title">Nombre Encuesta</h1>
+            <h1 class="panel-title">{{poll.name}}</h1>
         </div>
 
         <div class="panel-body">
+            {% for question in questions %}
             <div class="list-group">
-              <a href="#" class="list-group-item active">Pregunta 1</a>
+              <a href="#" class="list-group-item active">{{question.name}}</a>
               <div class="list-group">
-                  <a href="#" class="list-group-item"><span class="badge">44 (14%)</span><label class="answer">Respuesta 1</label></a>
-                  <a href="#" class="list-group-item"><span class="badge">55 (20%)</span><label class="answer">Respuesta 2</label></a>
-                  <a href="#" class="list-group-item"><span class="badge">100 (42%)</span><label class="answer">Respuesta 3</label></a>
+                  {% for answer in question.answers %}
+                  <a href="#" class="list-group-item"><span class="badge">{{answer.votes}} ({{answer.perc|floatformat:2}})</span><label class="answer">{{answer.text}}</label></a>
+                  {% endfor %}
               </div>
             </div>
-            <div class="list-group">
-              <a href="#" class="list-group-item active">Pregunta 2</a>
-              <div class="list-group">
-                  <a href="#" class="list-group-item"><span class="badge">44 (14%)</span><label class="answer">Respuesta 1</label></a>
-                  <a href="#" class="list-group-item"><span class="badge">55 (20%)</span><label class="answer">Respuesta 2</label></a>
-                  <a href="#" class="list-group-item"><span class="badge">100 (42%)</span><label class="answer">Respuesta 3</label></a>
-              </div>
-            </div>
-            <div class="list-group">
-              <a href="#" class="list-group-item active">Pregunta 3</a>
-              <div class="list-group">
-                  <a href="#" class="list-group-item"><span class="badge">44 (14%)</span><label class="answer">Respuesta 1</label></a>
-                  <a href="#" class="list-group-item"><span class="badge">55 (20%)</span><label class="answer">Respuesta 2</label></a>
-                  <a href="#" class="list-group-item"><span class="badge">100 (42%)</span><label class="answer">Respuesta 3</label></a>
-              </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
