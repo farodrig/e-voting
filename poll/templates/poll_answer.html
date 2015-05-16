@@ -5,6 +5,16 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script>
+
+      function addAns(){
+        $(':radio:checked').each(function(){
+            $("#form1").append('<input type="hidden" name="ans" value="'+$(this).val()+'" /> ');
+        });
+        return true;
+      }
+
+</script>
 
 <style>
     .bs-example{
@@ -47,21 +57,18 @@
                     <div class="list-group">
                       <a href="#" class="list-group-item active">Pregunta {{forloop.counter}}: {{question.name}}</a>
                       <div class="list-group">
+                          {% for ans in question.answers %}
                             <div class="radio list-group-item">
                               <label>
-                                <input type="radio" name="group1" value="Milk" aria-label="Respuesta 2">Respuesta 1
+                                <input type="radio" name="ans{{question.id}}" value="{{ans.id}}" aria-label="{{ans.text}}">{{ans.text}}
                               </label>
                             </div>
-                            <div class="radio list-group-item">
-                              <label>
-                                <input type="radio" name="group1" value="Milk" aria-label="Respuesta 2">Respuesta 2
-                              </label>
-                            </div>
+                          {% endfor %}
                       </div>
                     </div>
                     {% endfor %}
                 </div>
-                <input class="btn btn-success pull-right" type="submit" tabindex="5" value="Responder">
+                <input class="btn btn-success pull-right" type="submit" onclick ="addAns()" name="submit" tabindex="5" value="Responder">
             </form>
         </div>
     </div>

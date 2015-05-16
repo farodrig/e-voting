@@ -21,6 +21,7 @@ class QuestionForm(forms.ModelForm):
 	class Meta:
 		model = models.Question
 		exclude = ('poll','type')
+
 class AnswerForm(forms.ModelForm):
 	class Meta:
 		model = models.Answer

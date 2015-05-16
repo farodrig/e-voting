@@ -15,6 +15,7 @@ import datetime
 def main(request):
      return render_to_response("main.html", context_instance=RequestContext(request))
 
+
 def validate(request):
     form = AuthenticationForm(request)
     if request.method == "POST":
@@ -33,6 +34,7 @@ def out(request):
     logout(request)
     return redirect('/')
 
+
 def createPoll(request):
     if request.method == "POST":
         poll_form = PollForm(data=request.POST)
@@ -43,6 +45,7 @@ def createPoll(request):
             return render_to_response("create_question.html", {'poll': poll.id}, context_instance=RequestContext(request))
     poll_form = PollForm()
     return render_to_response("create_poll.html", {'poll_form': poll_form}, context_instance=RequestContext(request))
+
 
 def createQuestion(request):
 	if request.method == "POST":
@@ -67,6 +70,7 @@ def createQuestion(request):
 	poll = 0
 	return render_to_response("create_question.html", {'poll': poll}, context_instance=RequestContext(request))
 
+
 def search(request):
 	try:
 		polls = Poll.objects.filter(Q(privacy_status="P"), ~Q(creator = request.user))
@@ -74,13 +78,37 @@ def search(request):
 		polls = None
 	return render_to_response("poll_public.html", {"polls":polls}, context_instance=RequestContext(request))
 
+
 def answer(request, idpoll):
-	poll = Poll.objects.get(pk=idpoll)
-	questions = Question.objects.filter(poll=poll)
-	print questions
-	if request.method == "POST":
-		print "hola"
-	return render_to_response("poll_answer.html", {'poll': poll, 'questions':questions}, context_instance=RequestContext(request))
+    if (idpoll==None):
+        return redirect("/")
+    poll = Poll.objects.get(pk=idpoll)
+    if request.method == "POST":
+        answers =  request.POST.getlist('ans')
+        for ans in answers:
+            vote = Vote(answer = Answer.objects.get(id = ans), voter = request.user)
+            vote.save()
+        invitation = Invitation.objects.get(poll = poll, guest = request.user)
+        invitation.answered = True
+        invitation.save()
+        return redirect("/")
+    dict={}
+    dict['poll']=poll
+    questList=[]
+    questions=Question.objects.filter(poll=poll)
+    for ques in questions:
+        q={}
+        answers=Answer.objects.filter(question=ques)
+        ansList=[]
+        for ans in answers:
+            ansList.append({'text':ans.text, 'id':ans.id})
+        q['id'] = ques.id
+        q['name']=ques.name
+        q['answers']=ansList
+        questList.append(q)
+    dict['questions']=questList
+    return render_to_response("poll_answer.html", dict, context_instance=RequestContext(request))
+
 
 def register(request):
     if request.method == 'POST':
@@ -95,6 +123,7 @@ def register(request):
             return redirect('/')
     user_form = UserForm()
     return render_to_response('signup.html', {'user_form': user_form}, context_instance=RequestContext(request))
+
 
 def poll_list(request):
     try:
@@ -158,6 +187,7 @@ def results(request, poll_id):
         questList.append(q)
     dict['questions']=questList
     return  render_to_response('poll_results.html', dict, context_instance=RequestContext(request))
+
 
 def all(items):
     import operator
