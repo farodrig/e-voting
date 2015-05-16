@@ -20,7 +20,10 @@ class Invitation(models.Model):
     guest = models.ForeignKey(User)
     answered = models.BooleanField(default=False)
     def __unicode__(self):
-        return self.poll.name + " - " + self.guest
+        name = self.guest.first_name + " " + self.guest.last_name
+        if (name==" "):
+            name = self.guest.username
+        return self.poll.name + " - " + name
 
 
 #La idea seria que aqui fueran los tipos de los input de html soportados, onda si las respuestas seran checkbox o cosas asi
@@ -47,4 +50,4 @@ class Vote(models.Model):
     voter = models.ForeignKey(User)
     value = models.CharField(max_length=100, blank=True)
     def __unicode__(self):
-        return self.answer.value + ": " + self.value
+        return self.answer.text + ": " + self.value

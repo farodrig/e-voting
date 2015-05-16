@@ -40,7 +40,7 @@
         </div>
 
         <div class="panel-body">
-            <form class="box register" method="POST" enctype="multipart/form-data">
+            <form class="box register" method="POST" action="/invitation_list/{{poll}}" enctype="multipart/form-data">
             {% csrf_token %}
 
                 <div class="row">

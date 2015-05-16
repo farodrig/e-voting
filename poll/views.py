@@ -41,8 +41,7 @@ def createPoll(request):
             poll.creator = request.user
             poll.save()
             return render_to_response("create_question.html", {'poll': poll.id}, context_instance=RequestContext(request))
-    else:
-        poll_form = PollForm()
+    poll_form = PollForm()
     return render_to_response("create_poll.html", {'poll_form': poll_form}, context_instance=RequestContext(request))
 
 def createQuestion(request):
@@ -64,9 +63,8 @@ def createQuestion(request):
 			if request.POST['continuar'] == "1":
 				return render_to_response("create_question.html", {'poll': poll}, context_instance=RequestContext(request))
 			else:
-				return redirect('/')
-	else:
-		poll = 0
+				return redirect('/invitation_list/'+poll)
+	poll = 0
 	return render_to_response("create_question.html", {'poll': poll}, context_instance=RequestContext(request))
 
 def search(request):
@@ -95,8 +93,7 @@ def register(request):
                                     password=request.POST['password'])
             login(request, new_user)
             return redirect('/')
-    else:
-        user_form = UserForm()
+    user_form = UserForm()
     return render_to_response('signup.html', {'user_form': user_form}, context_instance=RequestContext(request))
 
 def poll_list(request):
@@ -115,22 +112,25 @@ def poll_list(request):
     return render_to_response('poll_list.html', {'created': created, 'answered': answered, 'not_answered': not_answered, 'now': datetime.datetime.now()},context_instance=RequestContext(request))
 
 
-def invitation_list(request):
+def invitation_list(request, poll_id):
+    if(poll_id==None):
+        return redirect("/")
     if request.method == 'POST':
         guests=request.POST.getlist('guests[]')
-        print guests
         for guest in guests:
-            invitation = Invitation(poll=Poll.objects.get(id=1),guest=User.objects.get(id = int(guest)))
+            invitation = Invitation(poll=Poll.objects.get(id=poll_id),guest=User.objects.get(id = int(guest)))
             invitation.save()
         return redirect('/')
-    else:
-        users=User.objects.all()
-    return  render_to_response('invitation_list.html', {'users': users}, context_instance=RequestContext(request))
+    guests = [request.user.id]
+    for invitation in Invitation.objects.filter(poll = poll_id):
+        guests.append(invitation.guest.id)
+    users=User.objects.all().exclude(id__in=guests)
+    return  render_to_response('invitation_list.html', {'users': users, 'poll':poll_id}, context_instance=RequestContext(request))
 
-#TO DO CATE
-#Recuerda crear preguntas, respuestas y votos para q veas q va funcionando
-def results(request):
-    poll_id = 1 #harcodeado no mas
+
+def results(request, poll_id):
+    if(poll_id==None):
+        return redirect("/")
     dict={}
     poll=Poll.objects.get(id=poll_id)
     dict['poll']=poll
@@ -148,7 +148,10 @@ def results(request):
             votes=Vote.objects.filter(answer=ans).count()
             a['text']=text
             a['votes'] = votes
-            a['perc']=100.0*votes/total
+            try:
+                a['perc']=100.0*votes/total
+            except:
+                a['perc'] = 0.0
             ansList.append(a)
         q['name']=name
         q['answers']=ansList

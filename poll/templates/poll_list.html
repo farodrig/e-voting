@@ -30,6 +30,7 @@
             <td>Fecha Termino</td>
             <td>Estado</td>
             <td>Privacidad</td>
+            <td></td>
         </tr>
       </thead>
       <tbody>
@@ -41,6 +42,8 @@
             <td>{{poll.close_date.date}}</td>
             <td>{% if poll.close_date|past %} Cerrada {%else%} Abierta {%endif%}</td>
             <td>{% if poll.privacy_status == "C" %}Privada{% else %} Pública {% endif %}</td>
+            <td><a href="/poll_results/{{poll.id}}" class="btn btn-primary">Ver Resultados</a>{% if poll.close_date|past %}{%else%}   <a href="/invitation_list/{{poll.id}}" class="btn btn-primary">Invitar</a>{%endif%}</td>
+
         </tr>
         {%endfor%}
       </tbody>
@@ -62,6 +65,7 @@
             <td>Fecha Inicio</td>
             <td>Fecha Termino</td>
             <td>Estado</td>
+            <td></td>
         </tr>
       </thead>
       <tbody>
@@ -74,6 +78,7 @@
             <td>{{invitation.poll.init_date.date}}</td>
             <td>{{invitation.poll.close_date.date}}</td>
             <td>{% if invitation.poll.close_date|past %}Cerrada{%else%}Abierta{%endif%}</td>
+            <td><a href="/poll_results/{{invitation.poll.id}}" class="btn btn-primary">Ver Resultados</a></td>
         </tr>
         {%endfor%}
       </tbody>
@@ -95,6 +100,7 @@
             <td>Fecha Inicio</td>
             <td>Fecha Termino</td>
             <td>Estado</td>
+            <td></td>
         </tr>
       </thead>
       <tbody>
@@ -103,10 +109,11 @@
         <tr>
             <td>{{forloop.counter}}</td>
             <td>{{invitation.poll.name}}</td>
-            <td>{{invitation.poll.creator}}</td>
+            <td>{{invitation.poll.creator.first_name}} {{invitation.poll.creator.last_name}}</td>
             <td>{{invitation.poll.init_date.date}}</td>
             <td>{{invitation.poll.close_date.date}}</td>
             <td>{% if invitation.poll.close_date|past %}Cerrada{%else%}Abierta{%endif%}</td>
+            {% if invitation.poll.close_date|past %}{%else%}<td><a href="/answer/{{invitation.poll.id}}" class="btn btn-primary">Contestar</a></td>{%endif%}
         </tr>
         {%endfor%}
       </tbody>
