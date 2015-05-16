@@ -73,6 +73,7 @@ def createQuestion(request):
 
 def search(request):
 	try:
+        #Deberia tambien filtrar que no se haya respondido antes o no??
 		polls = Poll.objects.filter(Q(privacy_status="P"), ~Q(creator = request.user))
 	except:
 		polls = None
