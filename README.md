@@ -23,3 +23,5 @@ Este consta de una aplicación web para poder crear encuestas públicas y privad
 		$ python manage.py runserver
 
 	La aplicación quedará corriendo por defecto en: http://localhost:8000/
+
+El repositorio de la aplicación se puede encontrar en: https://github.com/farodrig/e-voting
