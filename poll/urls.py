@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^poll_list$', views.poll_list),
     url(r'^invitation_list/?(?P<poll_id>\d+)?$$', views.invitation_list),
     url(r'^poll_results/?(?P<poll_id>\d+)?$', views.results),
-	url(r'^createquestion/$', views.createQuestion, name="createquestion"),
+	url(r'^createquestion/?(?P<poll_id>\d+)?$', views.createQuestion, name="createquestion"),
 	url(r'^search$', views.search),
 	url(r'^answer/?(?P<idpoll>\d+)?$', views.answer),
 ]
