@@ -1,6 +1,7 @@
 # e-voting
 
-Proyecto para el Curso de Seguridad de Software del Departamento de Ciencias de la Computación de la Universidad de Chile
+Proyecto para el Curso de Seguridad de Software del Departamento de Ciencias de la Computación de la Universidad de Chile.
+
 Este consta de una aplicación web para poder crear encuestas públicas y privadas, mandar invitaciones para responder encuestas y poder ver los resultados globales y parciales de estas.
 
 ## Inicialización de la App:
