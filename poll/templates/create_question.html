@@ -26,7 +26,7 @@
 
     function addAns(){
         ans++;
-        var input = '<input class="form-control" type="text" id="text'+ans+'"  name="'+ans+'-text" placeholder="Ingrese una respuesta" required maxlength="254">';
+        var input = '<input class="form-control" type="text" id="text'+ans+'"  name="answers" placeholder="Ingrese una respuesta" required maxlength="254">';
         var label = '<label class="col-sm-3 control-label" for="text'+ans+'">Respuesta '+ans+'</label>';
         var col = '<div class="col-sm-9">'+input+'</div>';
         var row = '<div class="row answer">'+label+col+'</div>';
@@ -83,13 +83,13 @@
                    <div class="row answer">
                         <label class="col-sm-3 control-label" for="text1">Respuesta 1</label>
                         <div class="col-sm-9">
-                          <input class="form-control" type="text" id="text1"  name="1-text" placeholder="Ingrese una respuesta" required maxlength="254">
+                          <input class="form-control" type="text" id="text1"  name="answers" placeholder="Ingrese una respuesta" required maxlength="254">
                         </div>
                    </div>
                    <div class="row answer">
                         <label class="col-sm-3 control-label" for="text2">Respuesta 2</label>
                         <div class="col-sm-9">
-                          <input class="form-control" type="text" id="text2"  name="2-text" placeholder="Ingrese una respuesta" required maxlength="254">
+                          <input class="form-control" type="text" id="text2"  name="answers" placeholder="Ingrese una respuesta" required maxlength="254">
                         </div>
                    </div>
                 </div>

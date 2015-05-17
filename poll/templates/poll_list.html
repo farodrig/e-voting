@@ -42,7 +42,16 @@
             <td>{{poll.close_date.date}}</td>
             <td>{% if poll.close_date|past %} Cerrada {%else%} Abierta {%endif%}</td>
             <td>{% if poll.privacy_status == "C" %}Privada{% else %} Pública {% endif %}</td>
-            <td><a href="/poll_results/{{poll.id}}" class="btn btn-primary">Ver Resultados</a>{% if poll.close_date|past %}{%else%}   <a href="/invitation_list/{{poll.id}}" class="btn btn-primary">Invitar</a>{%endif%}</td>
+            <td style="width:250px">
+                <a href="/poll_results/{{poll.id}}" class="btn btn-primary">Ver Resultados</a>
+                {% if poll.close_date|past %}{%else%}   <a href="/invitation_list/{{poll.id}}" class="btn btn-primary">Invitar</a>{%endif%}
+                <form method="POST" action="/delete" enctype="multipart/form-data" class="pull-right">
+                    {% csrf_token %}
+                    <input type="hidden" name="poll" value="{{poll.id}}">
+                    <button type="submit" class ="btn btn-danger" value="Submit"><small><i class="glyphicon glyphicon-remove"></i></small></button>
+                </form>
+
+            </td>
 
         </tr>
         {%endfor%}

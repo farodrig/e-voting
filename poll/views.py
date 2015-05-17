@@ -51,32 +51,30 @@ def createQuestion(request, poll_id):
     if (poll_id == None):
         return redirect("/")
     if request.method == "POST":
-		question_form = QuestionForm(data=request.POST)
-		cforms = [AnswerForm(request.POST, prefix=str(x), instance=Answer()) for x in range(1,3)]
-		if question_form.is_valid(): #falta validar por la respuesta.
-			question = question_form.save(commit=False)
-			question.poll = Poll.objects.get(id=poll_id)
-			type = Type.objects.get(id=1)
-			question.type = type
-			question.save()
-			for cf in cforms:
-				answer = cf.save(commit=False)
-				answer.question = question
-				answer.save()
-			if request.POST['continuar'] == "1":
-				return render_to_response("create_question.html", context_instance=RequestContext(request))
-			else:
-				return redirect('/invitation_list/'+poll_id)
+        question_form = QuestionForm(data=request.POST)
+        if question_form.is_valid(): #falta validar por la respuesta.
+            question = question_form.save(commit=False)
+            question.poll = Poll.objects.get(id=poll_id)
+            type = Type.objects.get(id=1)
+            question.type = type
+            question.save()
+            for ans in request.POST.getlist('answers'):
+                answer = Answer(question = question, text = ans)
+                answer.save()
+            if request.POST['continuar'] == "1":
+                return render_to_response("create_question.html", context_instance=RequestContext(request))
+            else:
+                return redirect('/invitation_list/'+poll_id)
     return render_to_response("create_question.html", {'poll':Poll.objects.get(id = poll_id)}, context_instance=RequestContext(request))
 
 
 def search(request):
-	try:
+    try:
         #Deberia tambien filtrar que no se haya respondido antes o no??
-		polls = Poll.objects.filter(Q(privacy_status="P"), ~Q(creator = request.user))
-	except:
-		polls = None
-	return render_to_response("poll_public.html", {"polls":polls}, context_instance=RequestContext(request))
+        polls = Poll.objects.filter(Q(privacy_status="P"), ~Q(creator = request.user))
+    except:
+        polls = None
+    return render_to_response("poll_public.html", {"polls":polls}, context_instance=RequestContext(request))
 
 
 def answer(request, idpoll):
@@ -187,6 +185,12 @@ def results(request, poll_id):
         questList.append(q)
     dict['questions']=questList
     return  render_to_response('poll_results.html', dict, context_instance=RequestContext(request))
+
+
+def delete_poll(request):
+    if request.method == 'POST':
+        Poll.objects.get(id = request.POST['poll'], creator = request.user).delete()
+    return redirect('/poll_list')
 
 
 def all(items):
