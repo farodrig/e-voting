@@ -1,0 +1,9 @@
+[
+  {
+    "model": "poll.type",
+    "pk": 1,
+    "fields": {
+      "name": "select"
+    }
+  }
+]
