@@ -14,6 +14,9 @@ Este consta de una aplicación web para poder crear encuestas públicas y privad
 	Para hacerlo con pip se puede llamar de la siguiente forma:
 		$ pip install -r requirements.txt
 
+
+## Ejecución de la App:
+
 	Para hacer correr la app, simplemente siga los siguientes pasos:
 	    $ python manage.py migrate
 	    $ python manage.py loaddata initData.json
