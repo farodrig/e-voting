@@ -7,10 +7,10 @@ from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 from django.db.models import Q
 from forms import UserForm, PollForm, QuestionForm, AnswerForm
-from django.http import HttpResponse
 from models import *
 import datetime
 # Create your views here.
+
 
 def main(request):
      return render_to_response("main.html", context_instance=RequestContext(request))
@@ -30,11 +30,12 @@ def validate(request):
     content =  {'form': form}
     return render_to_response("signin.html", content, context_instance=RequestContext(request))
 
+
 def out(request):
     logout(request)
     return redirect('/')
 
-
+@login_required(login_url='/')
 def createPoll(request):
     if request.method == "POST":
         poll_form = PollForm(data=request.POST)
@@ -46,7 +47,7 @@ def createPoll(request):
     poll_form = PollForm()
     return render_to_response("create_poll.html", {'poll_form': poll_form}, context_instance=RequestContext(request))
 
-
+@login_required(login_url='/')
 def createQuestion(request, poll_id):
     if (poll_id == None):
         return redirect("/")
@@ -67,7 +68,7 @@ def createQuestion(request, poll_id):
                 return redirect('/invitation_list/'+poll_id)
     return render_to_response("create_question.html", {'poll':Poll.objects.get(id = poll_id)}, context_instance=RequestContext(request))
 
-
+@login_required(login_url='/')
 def search(request):
     try:
         #Deberia tambien filtrar que no se haya respondido antes o no??
@@ -76,7 +77,7 @@ def search(request):
         polls = None
     return render_to_response("poll_public.html", {"polls":polls}, context_instance=RequestContext(request))
 
-
+@login_required(login_url='/')
 def answer(request, idpoll):
     if (idpoll==None):
         return redirect("/")
@@ -122,7 +123,7 @@ def register(request):
     user_form = UserForm()
     return render_to_response('signup.html', {'user_form': user_form}, context_instance=RequestContext(request))
 
-
+@login_required(login_url='/')
 def poll_list(request):
     try:
         created = Poll.objects.filter(creator = request.user)
@@ -138,7 +139,7 @@ def poll_list(request):
         not_answered = None
     return render_to_response('poll_list.html', {'created': created, 'answered': answered, 'not_answered': not_answered, 'now': datetime.datetime.now()},context_instance=RequestContext(request))
 
-
+@login_required(login_url='/')
 def invitation_list(request, poll_id):
     if(poll_id==None):
         return redirect("/")
@@ -154,7 +155,7 @@ def invitation_list(request, poll_id):
     users=User.objects.all().exclude(id__in=guests)
     return  render_to_response('invitation_list.html', {'users': users, 'poll':poll_id}, context_instance=RequestContext(request))
 
-
+@login_required(login_url='/')
 def results(request, poll_id):
     if(poll_id==None):
         return redirect("/")
@@ -186,7 +187,7 @@ def results(request, poll_id):
     dict['questions']=questList
     return  render_to_response('poll_results.html', dict, context_instance=RequestContext(request))
 
-
+@login_required(login_url='/')
 def delete_poll(request):
     if request.method == 'POST':
         Poll.objects.get(id = request.POST['poll'], creator = request.user).delete()
