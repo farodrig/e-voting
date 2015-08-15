@@ -52,6 +52,9 @@ def createPoll(request):
 def createQuestion(request, poll_id):
     if (poll_id == None):
         return redirect("/")
+    poll = Poll.objects.get(id = poll_id)
+    if(poll.creator!=request.user):
+        return redirect("/")
     if request.method == "POST":
         question_form = QuestionForm(data=request.POST)
         if question_form.is_valid(): #falta validar por la respuesta.
@@ -67,7 +70,7 @@ def createQuestion(request, poll_id):
                 return render_to_response("create_question.html", context_instance=RequestContext(request))
             else:
                 return redirect('/invitation_list/'+poll_id)
-    return render_to_response("create_question.html", {'poll':Poll.objects.get(id = poll_id)}, context_instance=RequestContext(request))
+    return render_to_response("create_question.html", {'poll':poll}, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def search(request):
