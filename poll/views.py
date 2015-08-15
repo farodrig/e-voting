@@ -9,6 +9,7 @@ from django.db.models import Q
 from forms import UserForm, PollForm, QuestionForm, AnswerForm
 from models import *
 import datetime
+from django.utils import timezone
 # Create your views here.
 
 
@@ -161,6 +162,8 @@ def results(request, poll_id):
         return redirect("/")
     dict={}
     poll=Poll.objects.get(id=poll_id)
+    if(poll.close_date>timezone.now() or (poll.privacy_status=="C" and poll.creator!=request.user and len(Invitation.objects.filter(poll=poll_id, guest=request.user))==0)):
+        return redirect("/")
     dict['poll']=poll
     questList=[]
     questions=Question.objects.filter(poll=poll)
