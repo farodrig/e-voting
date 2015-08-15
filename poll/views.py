@@ -144,10 +144,13 @@ def poll_list(request):
 def invitation_list(request, poll_id):
     if(poll_id==None):
         return redirect("/")
+    poll = Poll.objects.get(id=poll_id)
+    if(poll.creator!=request.user):
+        return redirect("/")
     if request.method == 'POST':
         guests=request.POST.getlist('guests[]')
         for guest in guests:
-            invitation = Invitation(poll=Poll.objects.get(id=poll_id),guest=User.objects.get(id = int(guest)))
+            invitation = Invitation(poll=poll,guest=User.objects.get(id = int(guest)))
             invitation.save()
         return redirect('/')
     guests = [request.user.id]
