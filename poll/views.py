@@ -83,12 +83,14 @@ def answer(request, idpoll):
     if (idpoll==None):
         return redirect("/")
     poll = Poll.objects.get(pk=idpoll)
+    invitation = Invitation.objects.get(poll = poll, guest = request.user)
+    if(invitation.answered):
+        return redirect("/")
     if request.method == "POST":
         answers =  request.POST.getlist('ans')
         for ans in answers:
             vote = Vote(answer = Answer.objects.get(id = ans), voter = request.user)
             vote.save()
-        invitation = Invitation.objects.get(poll = poll, guest = request.user)
         invitation.answered = True
         invitation.save()
         return redirect("/")
